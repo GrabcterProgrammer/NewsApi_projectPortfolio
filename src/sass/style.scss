@@ -1,0 +1,18 @@
+*{
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body{
+  position: relative;
+}
+
+.container{
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+@import "block/btn";
+@import "block/header";
+@import "block/news";

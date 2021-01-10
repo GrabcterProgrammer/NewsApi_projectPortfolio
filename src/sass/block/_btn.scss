@@ -1,0 +1,19 @@
+.btn{
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+
+  &__search{
+    background: #201ade;
+    color: white;
+
+    &:hover{
+      background: #0f0b8a;
+    }
+
+  }
+
+}
