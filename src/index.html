@@ -20,26 +20,20 @@
 
             <nav class="header-menu">
                 <ul>
-<!--                    <li>-->
-<!--                        <span class="header-menu__title">Язык:</span>-->
-<!--                        <select name="newsCountry" class="header-menu__select">-->
-<!--                            <option value="ru">Ru</option>-->
-<!--                            <option value="ua">Ua</option>-->
-<!--                            <option value="en">En</option>-->
-<!--                        </select>-->
-<!--                    </li>-->
+
                     <li>
                         <span class="header-menu__title">Страна новостей:</span>
-                        <select name="newsCountry" class="header-menu__select">
+                        <select name="newsCountry" id="newsCountry" class="header-menu__select">
                             <option value="ru">Ru</option>
                             <option value="ua">Ua</option>
                             <option value="us">Us</option>
                         </select>
                     </li>
+
                     <li>
                         <span class="header-menu__title">Тема:</span>
-                        <select name="themeNews" class="header-menu__select">
-                            <option value="All">All</option>
+                        <select name="themeNews" id="themeNews" class="header-menu__select">
+                            <option value="">All</option>
                             <option value="business">Business</option>
                             <option value="entertainment">Entertainment</option>
                             <option value="general">General</option>
@@ -50,12 +44,14 @@
 
                         </select>
                     </li>
+
                     <li>
                         <form class="header-menu__search" name="search" action="GET">
                             <input type="text" class="header-menu__search_input" placeholder="Apple">
                             <button class="btn btn__search">Поиск</button>
                         </form>
                     </li>
+
                 </ul>
             </nav>
 
