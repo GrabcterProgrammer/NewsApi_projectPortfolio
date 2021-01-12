@@ -1,51 +1,64 @@
-document.addEventListener("DOMContentLoaded", () =>
-{
+document.addEventListener("DOMContentLoaded", () => {
     const news = document.querySelector(".news");
     const url = "https://newsapi.org/v2/top-headlines?";
     const apiKey = "108c2bd8f9b6423f871c0bf5e6f532b9";
 
+    // Селекторы для дальнейшего взаимодействия
     const newsCountrySelector = document.querySelector("#newsCountry");
     const themeNewsSelector = document.querySelector("#themeNews");
+    const arrSelector = [newsCountrySelector, themeNewsSelector];
 
-    const newsCountry = getValue(newsCountrySelector);
-    const themeNews = getValue(themeNewsSelector);
+    // Обработчик событий
+    arrSelector.forEach(item =>{
+        item.addEventListener("change", ()=>{
+            try{
 
-    const query = httpRequest();
-    query.getQuery(url, apiKey, (err, data) =>{
+                const wrapper = document.querySelectorAll(".news-wrapper");
+                wrapper.forEach(item =>{
+                    item.remove();
+                })
 
-        if (err !== null){
-            console.error(err);
-            return;
-        }
+            } catch (e) {
+                console.error("Error!", e);
+            }
 
-        render(data, news);
+            ajaxQuery(url, apiKey);
 
-    },{country: newsCountry, category: themeNews, q: ''});
+        })
+    })
+
+    ajaxQuery(url, apiKey);
+
+    // Получение данных и дальнейший рендер
+    function ajaxQuery(url, apiKey) {
+        const query = httpRequest();
+
+        let newsCountry = getValue(newsCountrySelector);
+        let themeNews = getValue(themeNewsSelector);
+
+        query.getQuery(url, apiKey, (err, data) =>{
+
+            if (err !== null){
+                console.error(err);
+                return;
+            }
+
+            render(data, news);
+
+        },{country: newsCountry, category: themeNews});
+    }
 
 });
 
-
+// Получение значения из поля
 function getValue(selector){
-    let val = selector.value;
-    selector.addEventListener("change", ()=>{
-        val = selector.value;
-    });
-    return val;
+    return selector.value;
 }
 
+// Рендер внутреннего блока обертки
 function renderNewsItem(data) {
 
-    const fragmentNewsItem = document.createDocumentFragment();
-    const link = document.createElement("a");
-    const img = generateImg(data);
-    const textField = generateNewsTextField(data);
-
-    const arrFragment = [img, textField];
-
-    link.classList.add("news-item");
-    link.setAttribute("href", data.url);
-    link.setAttribute("target", '_blank');
-
+    // Создание обёртки внутреннего содержимого карточки (текста)
     function generateNewsTextField({title, description, publishedAt}) {
         const fragmentNewsTextField = document.createDocumentFragment();
         const newsWrapper = document.createElement("div");
@@ -75,6 +88,7 @@ function renderNewsItem(data) {
         return fragmentNewsTextField;
     }
 
+    // Создание Обертки изображения
     function generateImg({title, urlToImage}) {
         const fragmentImg = document.createDocumentFragment();
         const wrapperImg = document.createElement("div");
@@ -92,6 +106,17 @@ function renderNewsItem(data) {
         return fragmentImg;
     }
 
+    const fragmentNewsItem = document.createDocumentFragment();
+    const link = document.createElement("a");
+    const img = generateImg(data);
+    const textField = generateNewsTextField(data);
+
+    const arrFragment = [img, textField];
+
+    link.classList.add("news-item");
+    link.setAttribute("href", data.url);
+    link.setAttribute("target", '_blank');
+
     arrFragment.forEach(item =>{
         link.appendChild(item);
     })
@@ -101,6 +126,7 @@ function renderNewsItem(data) {
     return fragmentNewsItem;
 }
 
+// Рендер обёртки
 function render(data, selector) {
 
     const jsonData = JSON.parse(data);
@@ -117,6 +143,7 @@ function render(data, selector) {
     selector.appendChild(fragment);
 }
 
+// Запрос на сервер
 function httpRequest() {
     const request = new XMLHttpRequest();
 
